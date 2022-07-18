@@ -1,0 +1,1 @@
+insert into book (id, title, description,release_year) values('02c27f43-a408-4b42-9102-645d01b92d50', 'Java', 'Programming language',2018)
