@@ -33,9 +33,9 @@ public class BookControllerTest {
 				, BookDto[].class);
 		
 		assertThat(listOfBooks).isNotNull();
-		assertThat(listOfBooks.length).isEqualTo(1);
+		assertThat(listOfBooks.length).isEqualTo(20);
 	}
-	
+	/**
 	@Test
 	@Sql(scripts = {"classpath:insertInitialBookRecordForTest.sql"} )
 	void shouldReturnBooksWhenBookApiCalled1() {
@@ -43,6 +43,16 @@ public class BookControllerTest {
 				"http://localhost:"+port+"/api/v1/books"
 				, BookDto[].class);
 		
+		assertThat(listOfBooks).isNotNull();
+		assertThat(listOfBooks.length).isEqualTo(1);
+	}
+	*/
+	
+	@Test
+	@Sql(scripts = {"classpath:insertInitialBookRecordForTest.sql"} )
+	void shouldReturnOneBookWhenCalledWithTestTitle() {
+		BookDto[] listOfBooks = testRestTemplate.getForObject("http://localhost:"+port+"/api/v1/books/test title"
+				, BookDto[].class);
 		assertThat(listOfBooks).isNotNull();
 		assertThat(listOfBooks.length).isEqualTo(1);
 	}

@@ -31,7 +31,7 @@ public class BookRepositoryTest {
 	void shouldAbleToFetchAllBooksInDB() {
 		Iterable<Book> all= bookRepository.findAll();
 		Long totalBookCount  = StreamSupport.stream(all.spliterator(), false).count();
-		Assertions.assertEquals(totalBookCount, 1);
+		Assertions.assertEquals(totalBookCount, 20);
 	}
 	
 	@Test
@@ -40,6 +40,13 @@ public class BookRepositoryTest {
 		
 		List<Book> all = bookRepository.findBooksByTitle("test title");
 		Assertions.assertEquals(all.size(),1);
+	}
+	
+	@Test
+	@Sql(scripts = {"classpath:insertInitialBookRecordForTest.sql"} )
+	void shouldReturnOnBookWhenTitleIsTestTestIgnoreCase() {
 		
+		List<Book> all = bookRepository.findBooksByTitleIgnoreCase("test title");
+		Assertions.assertEquals(all.size(),1);
 	}
 }

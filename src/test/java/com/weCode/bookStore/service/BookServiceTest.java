@@ -1,9 +1,11 @@
 package com.weCode.bookStore.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +47,19 @@ public class BookServiceTest {
 				.hasFieldOrPropertyWithValue("description", "test description")
 				.hasFieldOrPropertyWithValue("releaseYear", 2022);
 	}
-
+	
+	@Test
+	void shouldReturnBooksByBookTitleIgnoreCase() {
+		List<Book> books = new ArrayList<>();
+		Book book = getBook();
+		books.add(book);
+		BookDto bookDto = getBookDto();
+		when(bookRepository.findBooksByTitleIgnoreCase(anyString())).thenReturn(books);
+		when(mapper.map(book, BookDto.class)).thenReturn(bookDto);
+		List<BookDto> bookDtoList  = bookService.getBooksByTitle("test title");
+		assertThat(bookDtoList.size()).isEqualTo(1);
+	}
+	
 	private Book getBook() {
 		return Book.builder().title("test title").description("test description").releaseYear(2022)
 				.id(UUID.randomUUID()).build();
